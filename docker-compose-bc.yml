@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  # PostgreSQL database service
+  postgres-db:
+    image: postgres
+    container_name: my-postgres-db
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+    ports:
+      - 5432:5432
+    networks:
+      - my-network
+
+  # ASP.NET Core application service
+  my-aspnet-app:
+    image: my-aspnet-app-image:latest
+    ports:
+      - 80:80
+    depends_on:
+      - postgres-db
+    environment:
+      - ConnectionStrings__Default=Host=postgres-db;Port=5432;Database=mydatabase;Username=myuser;Password=mypassword
+    networks:
+      - my-network
+
+networks:
+  my-network:
+    driver: bridge

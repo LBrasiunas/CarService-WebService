@@ -3,23 +3,20 @@
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-nanoserver-1809 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0-nanoserver-1809 AS build
-ARG BUILD_CONFIGURATION=Release
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["CarServiceApi/CarServiceApi.csproj", "CarServiceApi/"]
-RUN dotnet restore "./CarServiceApi/./CarServiceApi.csproj"
+RUN dotnet restore "CarServiceApi/CarServiceApi.csproj"
 COPY . .
 WORKDIR "/src/CarServiceApi"
-RUN dotnet build "./CarServiceApi.csproj" -c %BUILD_CONFIGURATION% -o /app/build
+RUN dotnet build "CarServiceApi.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./CarServiceApi.csproj" -c %BUILD_CONFIGURATION% -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CarServiceApi.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
