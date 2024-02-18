@@ -35,9 +35,27 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
+    public async Task<T?> DeleteByCombinedId(int id1, int id2)
+    {
+        var entity = await _table.FindAsync(id1, id2);
+        if (entity is null)
+        {
+            return null;
+        }
+
+        _table.Remove(entity);
+        await _context.SaveChangesAsync();
+        return entity;
+    }
+
     public async Task<IEnumerable<T>?> GetAllPaged(int offset = 0, int takeCount = 100)
     {
         return await _table.Skip(offset).Take(takeCount).ToListAsync();
+    }
+
+    public async Task<T?> GetByCombinedId(int id1, int id2)
+    {
+        return await _table.FindAsync(id1, id2);
     }
 
     public async Task<T?> GetById(int id)

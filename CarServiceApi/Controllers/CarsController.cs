@@ -3,7 +3,6 @@ using Infrastructure.Database.Models;
 using Infrastructure.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 
 namespace CarServiceApi.Controllers;
 
