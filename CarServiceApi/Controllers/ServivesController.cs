@@ -51,6 +51,7 @@ public class ServicesController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Service>> Add(
         [Required][FromBody] ServiceAddDto serviceDto)
     {
@@ -67,6 +68,7 @@ public class ServicesController : ControllerBase
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Service?>> Update(
         [Required][FromRoute] int id,

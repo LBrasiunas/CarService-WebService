@@ -51,6 +51,7 @@ public class CarsController : ControllerBase
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<Car>> Add(
         [Required][FromBody] CarAddDto carDto)
     {
@@ -68,6 +69,7 @@ public class CarsController : ControllerBase
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<Car?>> Update(
         [Required][FromRoute] int id,
