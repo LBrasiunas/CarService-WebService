@@ -51,6 +51,24 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Services", x => x.Id);
                 });
+
+            // Add data to Cars table
+            migrationBuilder.InsertData(
+                table: "Cars",
+                columns: new[] { "Brand", "Model", "Year" },
+                values: new object[] { "Toyota", "Camry", 2022 });
+
+            // Add data to Services table
+            migrationBuilder.InsertData(
+                table: "Services",
+                columns: new[] { "Name", "Description" },
+                values: new object[] { "Berauto", "We fix everything related to cars" });
+
+            // Add data to CarsAssignedToServices table (assuming some ServiceId and CarId values)
+            migrationBuilder.InsertData(
+                table: "CarsAssignedToServices",
+                columns: new[] { "ServiceId", "CarId" },
+                values: new object[] { 1, 1 });
         }
 
         /// <inheritdoc />
