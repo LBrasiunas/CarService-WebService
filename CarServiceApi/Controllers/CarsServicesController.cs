@@ -22,8 +22,8 @@ public class CarsServicesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<CarAssignedToService>?>> GetAll(
-        [FromQuery] int offset,
-        [FromQuery] int takeCount)
+        [FromQuery] int offset = 0,
+        [FromQuery] int takeCount = 100)
     {
         var dbResponse = await _carsServicesRepository.GetAllPaged(offset, takeCount);
         if (dbResponse is null || !dbResponse.Any())

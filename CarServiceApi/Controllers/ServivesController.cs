@@ -21,8 +21,8 @@ public class ServicesController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<Service>?>> GetAll(
-        [FromQuery] int offset,
-        [FromQuery] int takeCount)
+        [FromQuery] int offset = 0,
+        [FromQuery] int takeCount = 100)
     {
         var dbResponse = await _serviceRepository.GetAllPaged(offset, takeCount);
         if (dbResponse is null || !dbResponse.Any())
@@ -79,6 +79,7 @@ public class ServicesController : ControllerBase
                 $"The service with the specified id: {id} was not found!");
         }
 
+        await _serviceRepository.Detach(serviceFromDb);
         var service = new Service
         {
             Id = id,
@@ -86,7 +87,7 @@ public class ServicesController : ControllerBase
             Description = serviceDto.Description ?? serviceFromDb.Description,
         };
 
-        var dbResponse = await _serviceRepository.Update(id, service);
+        var dbResponse = await _serviceRepository.Update(service);
         return new OkObjectResult(dbResponse);
     }
 

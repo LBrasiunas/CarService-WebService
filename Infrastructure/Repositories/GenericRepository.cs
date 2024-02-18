@@ -48,7 +48,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return entity;
     }
 
-    public async Task<IEnumerable<T>?> GetAllPaged(int offset = 0, int takeCount = 100)
+    public async Task<IEnumerable<T>?> GetAllPaged(int offset, int takeCount)
     {
         return await _table.Skip(offset).Take(takeCount).ToListAsync();
     }
@@ -63,16 +63,17 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class
         return await _table.FindAsync(id);
     }
 
-    public async Task<T?> Update(int id, T entity)
+    public async Task<T?> Update(T entity)
     {
-        var entityFromDb = await _table.FindAsync(id);
-        if (entityFromDb is null)
-        {
-            return null;
-        }
-
+        _context.Entry(entity).State = EntityState.Detached;
         _table.Update(entity);
         await _context.SaveChangesAsync();
         return entity;
+    }
+
+    public async Task Detach(T entity)
+    {
+        _context.Entry(entity).State = EntityState.Detached;
+        await _context.SaveChangesAsync();
     }
 }

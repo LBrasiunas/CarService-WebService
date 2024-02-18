@@ -21,16 +21,16 @@ public class CarsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<IEnumerable<Car>?>> GetAll(
-        [FromQuery] int offset,
-        [FromQuery] int takeCount)
+        [FromQuery] int offset = 0,
+        [FromQuery] int takeCount = 100)
     {
-        var cars = await _carRepository.GetAllPaged(offset, takeCount);
-        if (cars is null || !cars.Any())
+        var dbResponse = await _carRepository.GetAllPaged(offset, takeCount);
+        if (dbResponse is null || !dbResponse.Any())
         {
             return new NotFoundObjectResult("There were no cars found!");
         }
 
-        return new OkObjectResult(cars);
+        return new OkObjectResult(dbResponse);
     }
 
     [HttpGet("{id}")]
@@ -39,14 +39,14 @@ public class CarsController : ControllerBase
     public async Task<ActionResult<Car?>> GetById(
         [Required][FromRoute] int id)
     {
-        var car = await _carRepository.GetById(id);
-        if (car is null)
+        var dbResponse = await _carRepository.GetById(id);
+        if (dbResponse is null)
         {
             return new NotFoundObjectResult(
                 $"The car with the specified id: {id} was not found!");
         }
 
-        return new OkObjectResult(car);
+        return new OkObjectResult(dbResponse);
     }
 
     [HttpPost]
@@ -80,6 +80,7 @@ public class CarsController : ControllerBase
                 $"The car with the specified id: {id} was not found!");
         }
 
+        await _carRepository.Detach(carFromDb);
         var car = new Car
         {
             Id = id,
@@ -88,7 +89,7 @@ public class CarsController : ControllerBase
             Year = carDto.Year ?? carFromDb.Year,
         };
 
-        var dbResponse = await _carRepository.Update(id, car);
+        var dbResponse = await _carRepository.Update(car);
         return new OkObjectResult(dbResponse);
     }
 
