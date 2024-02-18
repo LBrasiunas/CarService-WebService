@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    var connectionString = builder.Configuration.GetConnectionString("PostgreSqlConnection");
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
     options.UseNpgsql(connectionString);
 });
 builder.Services.AddInfrastructureServices();
@@ -30,5 +30,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using var scope = app.Services.CreateScope();
+using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+context.Database.Migrate();
 
 app.Run();
