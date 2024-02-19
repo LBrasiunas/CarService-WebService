@@ -11,10 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Files", "Solution Files", "{CC78C075-6C6F-4F05-AAD4-969DF6604314}"
 	ProjectSection(SolutionItems) = preProject
+		.dockerignore = .dockerignore
+		.gitignore = .gitignore
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
 		README.md = README.md
 	EndProjectSection
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{BCB3171B-FD0D-4075-9A7D-83FC7665C40B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +36,6 @@ Global
 		{B3D38DD6-B04C-4C47-B1CE-002DE5981F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B3D38DD6-B04C-4C47-B1CE-002DE5981F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B3D38DD6-B04C-4C47-B1CE-002DE5981F8B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCB3171B-FD0D-4075-9A7D-83FC7665C40B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCB3171B-FD0D-4075-9A7D-83FC7665C40B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCB3171B-FD0D-4075-9A7D-83FC7665C40B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCB3171B-FD0D-4075-9A7D-83FC7665C40B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
