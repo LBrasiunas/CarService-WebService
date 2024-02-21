@@ -21,3 +21,4 @@ services:
       - ASPNETCORE_ENVIRONMENT=DockerCompose
     depends_on:
       - webservice-db
+    restart: on-failure
